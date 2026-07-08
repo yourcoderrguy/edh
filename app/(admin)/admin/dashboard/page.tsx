@@ -149,12 +149,12 @@ export default function AdminDashboard() {
                       <td className="px-6 py-4 text-right">
                         <div className="flex justify-end gap-3">
                           <button 
-                            onClick={() => alert(`Edit ${caseStudy.id}`)}
-                            className="text-gray-400 hover:text-brand-green transition-colors"
-                            title="Edit Case"
-                          >
-                            <Edit size={18} />
-                          </button>
+  onClick={() => router.push(`/admin/dashboard/edit/${caseStudy.id}`)}
+  className="text-gray-400 hover:text-brand-green transition-colors"
+  title="Edit Case"
+>
+  <Edit size={18} />
+</button>
                           <button 
                             onClick={() => deleteCase(caseStudy.id)}
                             className="text-gray-400 hover:text-red-500 transition-colors"
