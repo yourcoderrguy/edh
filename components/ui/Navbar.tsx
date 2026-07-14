@@ -12,9 +12,9 @@ export default function Navbar() {
   // Links specific to the EDH platform
   const navLinks = [
     { name: "Home", href: "/" },
-    // { name: "About", href: "/about" },
-    // { name: "Initiatives", href: "/initiatives" },
-    // { name: "Case Repository", href: "/cases" },
+    { name: "About", href: "/about" },
+    { name: "Initiatives", href: "/initiatives" },
+    { name: "Case Repository", href: "/cases" },
   ];
 
   return (
