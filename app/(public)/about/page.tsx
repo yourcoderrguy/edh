@@ -89,7 +89,7 @@ export default function AboutPage() {
             <div className="w-full lg:w-1/3 shrink-0">
               <div className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-lg bg-gray-200">
                 {/* Replace src with her actual image filename (e.g., "/assets/images/dr-abigael.jpg") */}
-                <Image src="/placeholder-abigael.jpg" alt="Dr. Abigael Adewuni Ogunwoye" fill className="object-cover" />
+                <Image src="/ogunwoye.jpg" alt="Dr. Abigael Adewuni Ogunwoye" fill className="object-cover" />
               </div>
             </div>
             <div className="w-full lg:w-2/3">
@@ -121,7 +121,7 @@ export default function AboutPage() {
             <div className="w-full lg:w-1/3 shrink-0">
               <div className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-lg bg-gray-200">
                  {/* Replace src with his actual image filename (e.g., "/assets/images/dr-olubode.jpg") */}
-                <Image src="/placeholder-olubode.jpg" alt="Dr. Olubode Olusegun Oladele" fill className="object-cover" />
+                <Image src="/oladele.jpg" alt="Dr. Olubode Olusegun Oladele" fill className="object-cover" />
               </div>
             </div>
             <div className="w-full lg:w-2/3">
