@@ -3,107 +3,130 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
-  // Links specific to the EDH platform
+  // The massive new navigation structure defined by the client
   const navLinks = [
     { name: "Home", href: "/" },
-    { name: "About", href: "/about" },
-    { name: "Initiatives", href: "/initiatives" },
-    { name: "Case Repository", href: "/cases" },
+    { 
+      name: "About EDH", href: "/about", 
+      dropdown: ["Who We Are", "Vision and Mission", "Why Nano Enterprise?", "Our Approach"] 
+    },
+    { 
+      name: "Academy", href: "/academy", 
+      dropdown: ["Certificate Programmes", "Bootcamps", "Youth Programmes", "Women Enterprise Programmes", "Institutional Training"] 
+    },
+    { 
+      name: "Enterprise Dev", href: "/development", 
+      dropdown: ["Enterprise Incubation", "Business Advisory", "Digital Support", "Financial Capability", "Sustainability Support"] 
+    },
+    { 
+      name: "Research", href: "/research", 
+      dropdown: ["Research Themes", "Publications", "Policy Insights", "Knowledge Products"] 
+    },
+    { 
+      name: "Impact", href: "/impact", 
+      dropdown: ["Success Stories", "Entrepreneurship Day", "Digital Bootcamp", "Testimonials"] 
+    },
+    { 
+      name: "Partnerships", href: "/partnerships", 
+      dropdown: ["Academic Partners", "Development Partners", "Corporate Partners", "Collaboration Opportunities"] 
+    },
+    { 
+      name: "Knowledge", href: "/knowledge", 
+      dropdown: ["Articles", "Books", "Research Reports", "Training Resources"] 
+    },
+    { name: "Contact", href: "/contact" },
   ];
 
   return (
-    <nav className="fixed w-full z-50 bg-white/90 backdrop-blur-md shadow-sm">
+    <nav className="bg-white shadow-sm fixed w-full z-50 border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-20 items-center">
+        <div className="flex justify-between h-20">
           
-          {/* Brand Logo Section */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <motion.div 
-              whileHover={{ y: -3 }}
-              className="relative flex items-center justify-center"
-            >
-              <Image 
-                src="/edh-logo-icon.png" 
-                alt="Entrepreneurship Development Hub Logo" 
-                width={45} 
-                height={45} 
-                className="group-hover:animate-pulse-slow object-contain"
-                priority
-              />
-            </motion.div>
-            <div className="flex flex-col">
-              <span className="font-bold text-xl text-brand-green leading-tight">EDH</span>
-              <span className="text-[10px] font-bold text-brand-gold tracking-widest uppercase">Nano Business</span>
-            </div>
-          </Link>
+          {/* Logo Section - Text removed as requested */}
+          <div className="flex-shrink-0 flex items-center">
+            <Link href="/" className="flex items-center">
+              <Image src="/edh-logo-icon-text.png" alt="EDH Logo" width={180} height={60} className="object-contain" />
+            </Link>
+          </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className="text-gray-600 hover:text-brand-green font-medium transition-colors"
-              >
-                {link.name}
-              </Link>
+          <div className="hidden xl:flex xl:items-center xl:space-x-1">
+            {navLinks.map((link, index) => (
+              <div key={index} className="relative group px-2 py-6">
+                <Link 
+                  href={link.href}
+                  className="text-gray-700 hover:text-brand-green font-semibold text-sm flex items-center gap-1 transition-colors"
+                >
+                  {link.name}
+                  {link.dropdown && <ChevronDown size={14} className="text-gray-400 group-hover:text-brand-green transition-colors" />}
+                </Link>
+                
+                {/* Desktop Dropdown Menu */}
+                {link.dropdown && (
+                  <div className="absolute left-0 top-full mt-0 w-56 bg-white border border-gray-100 shadow-lg rounded-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0 overflow-hidden">
+                    <div className="py-2">
+                      {link.dropdown.map((item, i) => (
+                        <Link 
+                          key={i} 
+                          href={`${link.href}#${item.toLowerCase().replace(/\s+/g, '-')}`}
+                          className="block px-4 py-2.5 text-sm text-gray-600 hover:bg-gray-50 hover:text-brand-green font-medium"
+                        >
+                          {item}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
             ))}
-            <motion.button 
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-brand-green text-white px-6 py-2 rounded-full font-semibold shadow-md hover:bg-brand-green-dark transition-colors"
-            >
-              Partner With Us
-            </motion.button>
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="text-brand-green hover:text-brand-green-dark focus:outline-none"
-            >
+          <div className="flex items-center xl:hidden">
+            <button onClick={() => setIsOpen(!isOpen)} className="text-gray-600 hover:text-brand-green p-2">
               {isOpen ? <X size={28} /> : <Menu size={28} />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Navigation Dropdown (Animated) */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white border-t border-gray-100 overflow-hidden"
-          >
-            <div className="px-4 pt-2 pb-6 space-y-2 flex flex-col">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  href={link.href}
+      {/* Mobile Navigation */}
+      {isOpen && (
+        <div className="xl:hidden bg-white border-t border-gray-100 shadow-xl absolute w-full max-h-[80vh] overflow-y-auto">
+          <div className="px-4 pt-2 pb-6 space-y-1">
+            {navLinks.map((link, index) => (
+              <div key={index} className="py-2 border-b border-gray-50 last:border-0">
+                <Link 
+                  href={link.href} 
+                  className="block font-bold text-gray-900 text-base py-2"
                   onClick={() => setIsOpen(false)}
-                  className="block px-3 py-3 text-base font-medium text-gray-700 hover:text-brand-green hover:bg-gray-50 rounded-md"
                 >
                   {link.name}
                 </Link>
-              ))}
-              <div className="pt-4">
-                <button className="w-full bg-brand-gold text-brand-green-dark px-6 py-3 rounded-full font-bold shadow-sm hover:bg-brand-gold-light transition-colors">
-                  Partner With Us
-                </button>
+                {link.dropdown && (
+                  <div className="pl-4 mt-1 space-y-2 border-l-2 border-brand-green/20">
+                    {link.dropdown.map((item, i) => (
+                      <Link 
+                        key={i} 
+                        href={`${link.href}#${item.toLowerCase().replace(/\s+/g, '-')}`}
+                        className="block text-sm text-gray-600 py-1"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        {item}
+                      </Link>
+                    ))}
+                  </div>
+                )}
               </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            ))}
+          </div>
+        </div>
+      )}
     </nav>
   );
 }

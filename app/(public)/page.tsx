@@ -1,160 +1,197 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Rocket, BarChart3, BookOpen, GraduationCap, ArrowRight } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
+import { ArrowRight, Microscope, GraduationCap, TrendingUp, Laptop, Leaf, Handshake, BookOpen, Users, CheckCircle2 } from "lucide-react";
 
 export default function HomePage() {
-  // Animation variants for scannability and clean layout entry
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } }
-  };
+  const pillars = [
+    { title: "Research & Innovation", icon: <Microscope size={32} /> },
+    { title: "Capacity Building", icon: <GraduationCap size={32} /> },
+    { title: "Enterprise Development", icon: <TrendingUp size={32} /> },
+    { title: "Digital Transformation", icon: <Laptop size={32} /> },
+    { title: "Sustainability", icon: <Leaf size={32} /> },
+    { title: "Partnerships", icon: <Handshake size={32} /> }
+  ];
 
-  const staggerContainer = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.2 }
-    }
-  };
+  const programmes = [
+    "Nano Enterprise Academy",
+    "Digital Nano Enterprise Bootcamp",
+    "Youth Enterprise Programme",
+    "Women Nano Enterprise Programme",
+    "Enterprise Sustainability Programme"
+  ];
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-gray-50 to-white pt-20 overflow-x-hidden">
+    <main className="min-h-screen">
       
-      {/* 🚀 HERO SECTION */}
-      <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-24 md:pt-24 md:pb-32 flex flex-col items-center text-center">
-        {/* Animated Background Blob representing sustainable prosperity */}
-        <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[300px] h-[300px] sm:w-[500px] sm:h-[500px] bg-brand-green/5 rounded-full blur-3xl -z-10" />
-
-        {/* Logo/Rocket Micro-Interaction */}
-        <motion.div
-          initial={{ scale: 0, rotate: -45 }}
-          animate={{ scale: 1, rotate: 0 }}
-          transition={{ type: "spring", stiffness: 100, delay: 0.1 }}
-          className="mb-6 p-4 bg-brand-gold/10 rounded-full text-brand-gold flex items-center justify-center"
-        >
-          <Rocket size={40} className="animate-float" />
-        </motion.div>
-
-        {/* Slogan with high-contrast text */}
-        <motion.h1 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-4xl sm:text-6xl font-extrabold text-brand-green tracking-tight leading-none mb-6"
-        >
-          EMPOWER. INNOVATE. <br className="hidden sm:block" />
-          <span className="text-brand-gold">BUILD TOMORROW.</span>
-        </motion.h1>
-
-        {/* Core Vision Description */}
-        <motion.p 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3, duration: 0.5 }}
-          className="max-w-2xl text-base sm:text-xl text-gray-600 mb-10 font-medium"
-        >
-          Transforming innovative ideas into successful enterprises through structured mentorship, 
-          actionable research, and sustainable economic development.
-        </motion.p>
-
-        {/* Responsive CTA Actions */}
-        <motion.div 
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
-        >
-          <Link href="/cases" className="w-full sm:w-auto">
-            <button className="w-full bg-brand-green text-white font-bold px-8 py-4 rounded-full shadow-lg hover:bg-brand-green-dark transition-all flex items-center justify-center gap-2 group">
-              Explore Case Repository
-              <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-            </button>
-          </Link>
-          <Link href="/about" className="w-full sm:w-auto">
-            <button className="w-full bg-white text-gray-700 font-semibold px-8 py-4 rounded-full shadow-sm border border-gray-200 hover:bg-gray-50 transition-colors">
-              Our Story
-            </button>
-          </Link>
-        </motion.div>
-      </section>
-
-      {/* 📊 CORE FOCUS AREAS SECTION */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-gray-100">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold text-brand-green mb-4">Our Core Focus Areas</h2>
-          <div className="w-16 h-1 bg-brand-gold mx-auto rounded-full" />
+      {/* SECTION 1: HERO BANNER */}
+      <section className="relative h-[90vh] flex items-center justify-center pt-20">
+        <div className="absolute inset-0 z-0">
+          {/* Replace with one of her training/entrepreneur images */}
+          <div className="absolute inset-0 bg-gray-900/70 z-10"></div>
+          <Image src="/hero-bg.jpg" alt="Entrepreneurs working" fill className="object-cover" priority />
         </div>
-
-        <motion.div 
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-8"
-        >
-          {/* Card 1: Training & Capacity Development */}
-          <motion.div variants={fadeInUp} className="bg-white p-8 rounded-2xl shadow-md border border-gray-50 hover:shadow-xl transition-shadow flex flex-col justify-between">
-            <div>
-              <div className="w-12 h-12 bg-brand-green/10 text-brand-green rounded-xl flex items-center justify-center mb-6 font-bold">
-                <GraduationCap size={24} />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Training & Capacity Development</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
-                Providing practical, hands-on training designed to help individuals start nano businesses with minimal capital.
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Card 2: Nano Business Development Initiative */}
-          <motion.div variants={fadeInUp} className="bg-white p-8 rounded-2xl shadow-md border border-gray-50 hover:shadow-xl transition-shadow flex flex-col justify-between">
-            <div>
-              <div className="w-12 h-12 bg-brand-gold/10 text-brand-gold rounded-xl flex items-center justify-center mb-6">
-                <BarChart3 size={24} />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Nano Business Development Initiative</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
-                A flagship programme aimed at equipping students with entrepreneurial skills through structured learning and real-world exposure.
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Card 3: Nano Enterprise Case Repository */}
-          <motion.div variants={fadeInUp} className="bg-white p-8 rounded-2xl shadow-md border border-gray-50 hover:shadow-xl transition-shadow flex flex-col justify-between">
-            <div>
-              <div className="w-12 h-12 bg-brand-green/10 text-brand-green rounded-xl flex items-center justify-center mb-6">
-                <BookOpen size={24} />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Nano Enterprise Case Repository</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
-                Building a rich database of real-life nano business cases across Nigeria to support learning, research, and policy development.
-              </p>
-            </div>
-          </motion.div>
-        </motion.div>
+        
+        <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
+          <h1 className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight max-w-5xl mx-auto">
+            Africa’s Centre for Nano Enterprise Development and Sustainability
+          </h1>
+          <p className="text-lg md:text-xl text-gray-200 mb-10 max-w-3xl mx-auto">
+            Advancing sustainable enterprises through research, innovation, capacity building, and strategic partnerships.
+          </p>
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <Link href="/academy" className="bg-brand-green hover:bg-brand-green-dark text-white font-bold py-4 px-8 rounded-xl transition-colors text-lg">
+              Explore Programmes
+            </Link>
+            <Link href="/partnerships" className="bg-brand-gold hover:bg-yellow-500 text-gray-900 font-bold py-4 px-8 rounded-xl transition-colors text-lg">
+              Partner With EDH
+            </Link>
+          </div>
+        </div>
       </section>
 
-      {/* 🟩 WHY NANO BUSINESSES IMPACT SECTION */}
-      <section className="bg-brand-green text-white py-20 relative overflow-hidden">
-        {/* Subtle decorative arc imitating the logo structure */}
-        <div className="absolute inset-0 border-[1px] border-white/10 rounded-full scale-150 translate-y-1/3 -z-0" />
-        
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <span className="text-xs font-bold tracking-widest text-brand-gold uppercase block mb-4">Economic Impact</span>
-            <h2 className="text-3xl sm:text-4xl font-bold mb-6">Why Nano Businesses?</h2>
-            <p className="text-base sm:text-lg text-white/90 max-w-3xl mx-auto leading-relaxed mb-8 font-medium">
-              Nano businesses represent a powerful pathway to tackling unemployment and fostering inclusive economic growth in Nigeria. 
-              With low startup requirements and high scalability potential, they provide an accessible entry point into entrepreneurship for students and young graduates.
-            </p>
-            <div className="w-24 h-1 bg-brand-gold mx-auto rounded-full" />
-          </motion.div>
+      {/* SECTION 2: WHO WE ARE */}
+      <section className="py-24 bg-white text-center px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto">
+          <span className="text-sm font-bold text-brand-green tracking-widest uppercase block mb-4">Who We Are</span>
+          <p className="text-2xl md:text-3xl font-medium text-gray-900 leading-relaxed mb-8">
+            Entrepreneurship Development Hub (EDH) is a research-driven centre dedicated to empowering nano entrepreneurs through practical knowledge, digital innovation, enterprise development, and sustainability solutions.
+          </p>
+          <Link href="/about" className="inline-flex items-center text-brand-green font-bold text-lg hover:underline gap-2">
+            Learn More <ArrowRight size={20} />
+          </Link>
+        </div>
+      </section>
+
+      {/* SECTION 3: WHY NANO ENTERPRISE? */}
+      <section className="py-20 bg-gray-50 border-y border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl font-bold text-gray-900 mb-12">Why Nano Enterprise?</h2>
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6">
+            {['Nano Enterprises', 'Employment', 'Income', 'Community Development', 'Economic Transformation'].map((step, idx, arr) => (
+              <div key={idx} className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
+                <div className="bg-white px-6 py-4 rounded-xl shadow-sm border border-brand-green/20 font-bold text-gray-800 text-lg">
+                  {step}
+                </div>
+                {idx !== arr.length - 1 && <ArrowRight className="text-brand-green rotate-90 md:rotate-0" />}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 4: OUR STRATEGIC PILLARS */}
+      <section className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-gray-900 mb-16 text-center">Our Strategic Pillars</h2>
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-10">
+            {pillars.map((pillar, idx) => (
+              <div key={idx} className="text-center group">
+                <div className="w-20 h-20 bg-gray-50 group-hover:bg-brand-green text-brand-green group-hover:text-white rounded-2xl flex items-center justify-center mx-auto mb-6 transition-colors shadow-sm border border-gray-100">
+                  {pillar.icon}
+                </div>
+                <h3 className="text-xl font-bold text-gray-900">{pillar.title}</h3>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 5: FEATURED KNOWLEDGE PRODUCT */}
+      <section className="py-24 bg-brand-green-dark text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col lg:flex-row items-center gap-16">
+            <div className="lg:w-1/3">
+              <div className="aspect-[3/4] bg-gray-200 rounded-xl overflow-hidden relative shadow-2xl">
+                {/* Upload 'book-cover.jpg' to public folder */}
+                <Image src="/book-cover.jpg" alt="Nano Business in Nigeria Book Cover" fill className="object-cover" />
+              </div>
+            </div>
+            <div className="lg:w-2/3">
+              <span className="text-brand-gold font-bold tracking-widest uppercase text-sm mb-4 block">Featured Book</span>
+              <h2 className="text-4xl font-bold mb-4 leading-tight">Nano Business in Nigeria: Principles, Practices, and Prospects</h2>
+              <div className="text-lg text-gray-300 mb-8 space-y-2">
+                <p><strong>Author:</strong> Dr. Abigael Adewuni Ogunwoye</p>
+                <p><strong>Co-Author:</strong> Dr. Olubode Olusegun Oladele</p>
+              </div>
+              <p className="text-xl text-gray-200 mb-10 leading-relaxed">
+                A practical entrepreneurship manual supporting nano business creation and sustainability.
+              </p>
+              <Link href="#" className="inline-flex items-center gap-2 bg-brand-gold hover:bg-yellow-500 text-gray-900 font-bold py-4 px-8 rounded-xl transition-colors text-lg">
+                <BookOpen size={20} /> Available on Amazon
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 6: OUR PROGRAMMES */}
+      <section className="py-24 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">Our Programmes</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {programmes.map((prog, idx) => (
+              <div key={idx} className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:-translate-y-1 transition-transform">
+                <CheckCircle2 size={32} className="text-brand-gold mb-6" />
+                <h3 className="text-xl font-bold text-gray-900 mb-4">{prog}</h3>
+                <Link href="/academy" className="text-brand-green font-bold text-sm flex items-center gap-2 hover:underline">
+                  View Details <ArrowRight size={14} />
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 7: IMPACT HIGHLIGHTS */}
+      <section className="py-20 bg-brand-green text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            {/* Note: Update these numbers with the actual verified figures from Dr. Abigael */}
+            {[
+              { label: "Entrepreneurs Trained", value: "500+" },
+              { label: "Programmes Delivered", value: "20+" },
+              { label: "Institutions Engaged", value: "15+" },
+              { label: "Enterprises Supported", value: "300+" }
+            ].map((stat, idx) => (
+              <div key={idx}>
+                <div className="text-4xl md:text-5xl font-extrabold text-brand-gold mb-2">{stat.value}</div>
+                <div className="text-sm md:text-base font-medium">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 8: SUCCESS STORIES (IMAGE GALLERY) */}
+      <section className="py-24 bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Success Stories & Impact</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">Real entrepreneurs. Real enterprises. Real impact.</p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {/* Upload your gallery images to public/assets/images/ and use them here */}
+            {[1, 2, 3, 4, 5, 6, 7, 8].map((img) => (
+              <div key={img} className="aspect-square bg-gray-100 rounded-xl overflow-hidden relative">
+                {/* <Image src={`/gallery-${img}.jpg`} fill className="object-cover hover:scale-105 transition-transform duration-500" alt="EDH Success Story" /> */}
+                <div className="w-full h-full flex items-center justify-center text-gray-300"><Users size={32} /></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 9: PARTNERSHIP INVITATION */}
+      <section className="py-24 bg-gray-50 text-center">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+            Join EDH in building sustainable nano enterprises across Africa.
+          </h2>
+          <Link href="/partnerships" className="inline-block bg-brand-green hover:bg-brand-green-dark text-white font-bold py-4 px-10 rounded-xl transition-colors text-lg shadow-lg">
+            Partner With Us
+          </Link>
         </div>
       </section>
 

@@ -7,10 +7,19 @@ import Footer from "@/components/ui/Footer"; // Import the new Footer
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "EDH | Entrepreneurship Development Hub",
-  description: "Empower, Innovate, Build Tomorrow. Nurturing entrepreneurs and driving sustainable economic development.",
+  title: 'Entrepreneurship Development Hub (EDH)',
+  description: 'Africa’s Centre for Nano Enterprise Development and Sustainability. Empowering Nano Enterprises. Transforming Communities. Building Sustainable Economies.',
+  keywords: [
+    'Nano enterprise development', 
+    'Nano business Nigeria', 
+    'Entrepreneurship training Nigeria', 
+    'Digital entrepreneurship Nigeria', 
+    'Business incubation Nigeria', 
+    'Entrepreneurship development hub', 
+    'Sustainable enterprise development'
+  ],
+  authors: [{ name: 'Dr. Abigael Adewuni Ogunwoye' }, { name: 'Dr. Olubode Olusegun Oladele' }],
 };
-
 export default function RootLayout({
   children,
 }: {
