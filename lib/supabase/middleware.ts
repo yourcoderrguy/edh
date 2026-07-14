@@ -38,15 +38,12 @@ export async function updateSession(request: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser()
 
   // 🛡️ STRICT ROUTE PROTECTION
-  // If the user tries to access any /admin page (but not the login page itself)
   if (request.nextUrl.pathname.startsWith('/admin') && !request.nextUrl.pathname.startsWith('/admin/login')) {
-    // If there is no logged-in user, kick them back to the login screen
     if (!user) {
       return NextResponse.redirect(new URL('/admin/login', request.url))
     }
   }
 
-  // If the user is logged in, but tries to go to the login page, push them to the dashboard
   if (request.nextUrl.pathname.startsWith('/admin/login') && user) {
     return NextResponse.redirect(new URL('/admin/dashboard', request.url))
   }
