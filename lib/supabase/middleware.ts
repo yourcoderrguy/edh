@@ -17,24 +17,16 @@ export async function updateSession(request: NextRequest) {
           return request.cookies.get(name)?.value
         },
         set(name: string, value: string, options: CookieOptions) {
-<<<<<<< HEAD
-          // Spread operator (...) used here to flatten the options
-=======
->>>>>>> feature/project-structure
           request.cookies.set({ name, value, ...options })
           response = NextResponse.next({
-            request: {
-              headers: request.headers,
-            },
+            request: { headers: request.headers },
           })
           response.cookies.set({ name, value, ...options })
         },
         remove(name: string, options: CookieOptions) {
           request.cookies.set({ name, value: '', ...options })
           response = NextResponse.next({
-            request: {
-              headers: request.headers,
-            },
+            request: { headers: request.headers },
           })
           response.cookies.set({ name, value: '', ...options })
         },
@@ -42,10 +34,6 @@ export async function updateSession(request: NextRequest) {
     }
   )
 
-<<<<<<< HEAD
-  // Refresh session if expired
-  await supabase.auth.getUser()
-=======
   // Get the current user session
   const { data: { user } } = await supabase.auth.getUser()
 
@@ -62,22 +50,13 @@ export async function updateSession(request: NextRequest) {
   if (request.nextUrl.pathname.startsWith('/admin/login') && user) {
     return NextResponse.redirect(new URL('/admin/dashboard', request.url))
   }
->>>>>>> feature/project-structure
 
   return response
 }
 
-// Add this at the absolute bottom of lib/supabase/middleware.ts
-
+// Ignore static files and images to prevent Supabase rate-limiting
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - Any image extension (.svg, .png, .jpg, .jpeg, etc)
-     */
     '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 }
