@@ -1,92 +1,55 @@
-import { createClient } from "@/lib/supabase/server";
-import { notFound } from "next/navigation";
-import { ArrowLeft, Calendar, User } from "lucide-react";
+import { createClient } from "@supabase/supabase-js";
 import Link from "next/link";
-import Image from "next/image";
+import { ArrowLeft, Calendar } from "lucide-react";
+import { notFound } from "next/navigation";
 
-// Define the expected parameter structure for Next.js dynamic routes
-interface CaseStudyProps {
-  params: {
-    id: string;
-  };
-}
+// Server-side Supabase client
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
-export default async function SingleCaseStudy({ params }: CaseStudyProps) {
-  const supabase = await createClient();
+// Force dynamic rendering so it always pulls fresh data
+export const dynamic = "force-dynamic";
 
-  // Fetch the specific case study from Supabase
-  const { data: caseStudy, error } = await supabase
+export default async function SingleCaseStudyPage({ params }: { params: { id: string } }) {
+  // Fetch the specific article by the ID in the URL
+  const { data: article, error } = await supabase
     .from("case_studies")
     .select("*")
     .eq("id", params.id)
-    .eq("is_published", true)
     .single();
 
-  // If the database throws an error or the case doesn't exist, trigger a 404
-  if (error || !caseStudy) {
-    notFound();
+  // If there's an error or the article is missing, show the 404 page
+  if (error || !article) {
+    notFound(); 
   }
 
   return (
-    <main className="pt-32 pb-24 bg-white min-h-screen">
+    <main className="pt-32 pb-24 bg-gray-50/50 min-h-screen">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Back Navigation */}
-        <Link 
-          href="/cases" 
-          className="inline-flex items-center gap-2 text-sm font-semibold text-brand-green hover:text-brand-green-dark mb-8 transition-colors group"
-        >
-          <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> 
-          Back to Repository
+        <Link href="/cases" className="inline-flex items-center gap-2 text-brand-green font-bold hover:underline mb-8">
+          <ArrowLeft size={20} /> Back to Knowledge Centre
         </Link>
 
-        {/* Article Header */}
-        <header className="mb-12">
-          <h1 className="text-3xl sm:text-5xl font-extrabold text-gray-900 leading-tight mb-6">
-            {caseStudy.title}
-          </h1>
-          
-          <div className="flex flex-wrap items-center gap-6 text-sm text-gray-500 font-medium border-b border-gray-100 pb-8">
-            <div className="flex items-center gap-2">
-              <Calendar size={16} className="text-brand-gold" />
-              {new Date(caseStudy.created_at).toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-              })}
+        <article className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+          <div className="p-10 md:p-16">
+            <div className="flex items-center gap-2 text-sm text-gray-500 mb-6 font-medium">
+              <Calendar size={18} className="text-brand-gold" />
+              {new Date(article.created_at).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' })}
             </div>
-            {caseStudy.author && (
-              <div className="flex items-center gap-2">
-                <User size={16} className="text-brand-gold" />
-                {caseStudy.author}
-              </div>
-            )}
-          </div>
-        </header>
+            
+            <h1 className="text-3xl md:text-5xl font-extrabold text-gray-900 mb-10 leading-tight">
+              {article.title}
+            </h1>
 
-        {/* Featured Image (If available) */}
-        {caseStudy.image_url && (
-          <div className="mb-12 rounded-2xl overflow-hidden shadow-md relative w-full h-[400px]">
-            <Image 
-              src={caseStudy.image_url} 
-              alt={caseStudy.title}
-              fill
-              className="object-cover"
-              priority
+            {/* This renders the rich HTML content saved from the React Quill editor securely */}
+            <div 
+              className="prose prose-lg max-w-none text-gray-700 prose-headings:text-gray-900 prose-a:text-brand-green"
+              dangerouslySetInnerHTML={{ __html: article.content }}
             />
           </div>
-        )}
-
-        {/* Dynamic Rich Text Content */}
-        {/* We use a specific prose class configuration to ensure the HTML injected from the admin dashboard looks beautiful */}
-        <article 
-          className="prose prose-lg prose-green max-w-none text-gray-700 
-            prose-headings:text-gray-900 prose-headings:font-bold 
-            prose-a:text-brand-green hover:prose-a:text-brand-green-dark
-            prose-img:rounded-xl prose-img:shadow-sm"
-          dangerouslySetInnerHTML={{ __html: caseStudy.content }} 
-        />
-        
+        </article>
       </div>
     </main>
   );

@@ -1,97 +1,128 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
-import { Mail, MapPin, ArrowRight } from "lucide-react";
+import { useState } from "react";
+import { Send, Loader2, CheckCircle2 } from "lucide-react";
 
 export default function Footer() {
-  const currentYear = new Date().getFullYear();
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus("loading");
+    try {
+      const res = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      if (res.ok) {
+        setStatus("success");
+        setEmail("");
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
+  };
 
   return (
-    <footer className="bg-gray-900 text-white pt-16 pb-8 border-t border-gray-800">
+    <footer className="bg-gray-950 text-white pt-20 pb-10 border-t-4 border-brand-green">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Top Grid Section */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-12 border-b border-gray-800 pb-12">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-16">
           
-          {/* Brand & Slogan Column */}
-          <div className="md:col-span-5">
-            <div className="bg-white p-3 rounded-xl inline-block mb-6 shadow-sm">
-              {/* Using the full text logo here */}
-              <Image 
-                src="/edh-logo-icon-text.png" 
-                alt="Entrepreneurship Development Hub Full Logo" 
-                width={200} 
-                height={70} 
-                className="object-contain"
-              />
+          {/* Brand & Identity Column */}
+          <div className="md:col-span-4 pr-4">
+            <div className="bg-white p-3 rounded-xl inline-block mb-6">
+              <Image src="/edh-logo-icon-text.png" alt="EDH Logo" width={160} height={50} className="object-contain" />
             </div>
-            <p className="text-gray-400 text-sm leading-relaxed max-w-sm mb-6">
-              Empowering students and aspiring entrepreneurs to start and grow nano businesses. Transforming innovative ideas into successful enterprises across Nigeria.
+            <h3 className="text-xl font-bold text-brand-gold mb-2">Entrepreneurship Development Hub (EDH)</h3>
+            <p className="text-gray-300 font-medium mb-4">Africa’s Centre for Nano Enterprise Development and Sustainability</p>
+            <p className="text-gray-400 text-sm leading-relaxed mb-6">
+              Empowering Nano Enterprises. Transforming Communities. Building Sustainable Economies.
             </p>
-            <div className="flex items-center gap-2 text-brand-gold text-sm font-bold uppercase tracking-widest">
-              <span>Empower</span>
-              <span className="w-1 h-1 bg-brand-green rounded-full" />
-              <span>Innovate</span>
-              <span className="w-1 h-1 bg-brand-green rounded-full" />
-              <span>Build Tomorrow</span>
+            {/* Social Links using pure SVGs to avoid Lucide errors */}
+            <div className="flex gap-4">
+              <a href="#" className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-brand-green transition-colors">
+                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+              </a>
+              <a href="#" className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-brand-green transition-colors">
+                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+              </a>
+              <a href="#" className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-brand-green transition-colors">
+                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              </a>
+              <a href="#" className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-brand-green transition-colors">
+                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+              </a>
             </div>
           </div>
 
-          {/* Sitemap / Quick Links Column */}
-          <div className="md:col-span-3">
-            <h3 className="text-white font-bold mb-6 text-lg">Explore</h3>
-            <ul className="space-y-4">
-              <li>
-                <Link href="/" className="text-gray-400 hover:text-brand-gold transition-colors text-sm flex items-center gap-2 group">
-                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform text-brand-green" /> Home
-                </Link>
-              </li>
-              <li>
-                <Link href="/about" className="text-gray-400 hover:text-brand-gold transition-colors text-sm flex items-center gap-2 group">
-                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform text-brand-green" /> About the Hub
-                </Link>
-              </li>
-              <li>
-                <Link href="/initiatives" className="text-gray-400 hover:text-brand-gold transition-colors text-sm flex items-center gap-2 group">
-                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform text-brand-green" /> Core Initiatives
-                </Link>
-              </li>
-              <li>
-                <Link href="/cases" className="text-gray-400 hover:text-brand-gold transition-colors text-sm flex items-center gap-2 group">
-                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform text-brand-green" /> Case Repository
-                </Link>
-              </li>
-            </ul>
+          {/* Links Columns */}
+          <div className="md:col-span-4 flex justify-between gap-8">
+            <div>
+              <h4 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
+                <span className="w-4 h-1 bg-brand-green rounded-full"></span> Explore
+              </h4>
+              <ul className="space-y-4">
+                {['About', 'Academy', 'Development', 'Research'].map((item) => (
+                  <li key={item}>
+                    <Link href={`/${item.toLowerCase()}`} className="text-gray-400 hover:text-brand-green transition-colors text-sm font-medium">{item}</Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
+                <span className="w-4 h-1 bg-brand-gold rounded-full"></span> Connect
+              </h4>
+              <ul className="space-y-4">
+                {['Impact', 'Partnerships', 'Knowledge', 'Contact'].map((item) => (
+                  <li key={item}>
+                    <Link href={`/${item.toLowerCase()}`} className="text-gray-400 hover:text-brand-gold transition-colors text-sm font-medium">{item}</Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
-          {/* Contact Column */}
+          {/* Newsletter Column */}
           <div className="md:col-span-4">
-            <h3 className="text-white font-bold mb-6 text-lg">Contact & Partnerships</h3>
-            <ul className="space-y-4 mb-6">
-              <li className="flex items-start gap-3 text-gray-400 text-sm">
-                <Mail size={18} className="text-brand-green shrink-0 mt-0.5" />
-                <span>partner@edhub.com</span>
-              </li>
-              <li className="flex items-start gap-3 text-gray-400 text-sm">
-                <MapPin size={18} className="text-brand-green shrink-0 mt-0.5" />
-                <span>Nigeria</span>
-              </li>
-            </ul>
-            <Link href="/admin/login">
-              <button className="text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 px-4 py-2 rounded-lg transition-colors border border-gray-700">
-                Admin Portal Access
-              </button>
-            </Link>
+            <h4 className="text-lg font-bold text-white mb-4">Subscribe to our Newsletter</h4>
+            <p className="text-gray-400 text-sm mb-6">Get the latest research, enterprise tools, and updates directly to your inbox.</p>
+            
+            {status === "success" ? (
+              <div className="flex items-center gap-2 text-brand-green bg-brand-green/10 p-4 rounded-xl border border-brand-green/20">
+                <CheckCircle2 size={20} /> <span className="font-bold">Thank you for subscribing!</span>
+              </div>
+            ) : (
+              <form onSubmit={handleSubscribe} className="relative">
+                <input 
+                  type="email" 
+                  required 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Your email address" 
+                  className="w-full bg-gray-900 border border-gray-800 rounded-xl py-4 pl-4 pr-16 focus:outline-none focus:border-brand-green text-white placeholder-gray-600"
+                />
+                <button type="submit" disabled={status === "loading"} className="absolute right-2 top-2 bottom-2 bg-brand-green hover:bg-brand-green-dark text-white rounded-lg px-4 flex items-center justify-center transition-colors disabled:opacity-70">
+                  {status === "loading" ? <Loader2 size={18} className="animate-spin" /> : <Send size={18} />}
+                </button>
+              </form>
+            )}
+            {status === "error" && <p className="text-red-400 text-sm mt-2">Something went wrong. Try again.</p>}
           </div>
         </div>
 
-        {/* Bottom Legal Bar */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-gray-500 text-xs text-center md:text-left font-medium">
-            &copy; {currentYear} Nano Business Development Hub. All rights reserved.
-          </p>
-          <div className="flex gap-6 text-xs text-gray-500 font-medium">
-            <Link href="#" className="hover:text-brand-gold transition-colors">Privacy Policy</Link>
-            <Link href="#" className="hover:text-brand-gold transition-colors">Terms of Service</Link>
+        {/* Copyright & Legal */}
+        <div className="pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+          <p>&copy; {new Date().getFullYear()} Entrepreneurship Development Hub (EDH). All rights reserved.</p>
+          <div className="flex gap-6">
+            <Link href="/privacy" className="hover:text-brand-green transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-brand-green transition-colors">Terms of Service</Link>
           </div>
         </div>
       </div>
