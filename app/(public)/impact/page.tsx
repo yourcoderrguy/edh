@@ -72,17 +72,22 @@ export default function ImpactPage() {
           </div>
           
           {/* This is where you will map over the 50+ images of students/events */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {[1, 2, 3, 4, 5, 6, 7, 8].map((img) => (
-              <div key={img} className="aspect-square bg-gray-100 rounded-xl overflow-hidden relative group cursor-pointer">
-                <div className="absolute inset-0 bg-brand-green/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10">
-                  <span className="text-white font-bold">View Story</span>
-                </div>
-                {/* <Image src={`/assets/images/gallery-${img}.jpg`} fill className="object-cover" alt="Success Story" /> */}
-                <div className="w-full h-full flex items-center justify-center text-gray-300"><Image size={32} /></div>
-              </div>
-            ))}
-          </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+  {/* This automatically creates a grid for your 30 images */}
+  {Array.from({ length: 15 }, (_, i) => i + 1).map((imgNumber) => (
+    <div key={imgNumber} className="aspect-square bg-gray-100 rounded-xl overflow-hidden relative group">
+      
+      <Image 
+        src={`/gallery/${imgNumber}.jpg`} 
+        fill 
+        className="object-cover group-hover:scale-105 transition-transform duration-500" 
+        alt={`EDH Success Story ${imgNumber}`}
+        sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" 
+      />
+      
+    </div>
+  ))}
+</div>
         </div>
       </div>
 
