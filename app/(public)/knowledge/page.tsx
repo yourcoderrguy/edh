@@ -1,6 +1,6 @@
 "use client";
 
-import { FileText, Book, BookOpen, Presentation, BarChart, Download } from "lucide-react";
+import { FileText, Book, BookOpen, Presentation, BarChart, Download, ArrowRight } from "lucide-react";
 
 export default function KnowledgePage() {
   const resources = [
