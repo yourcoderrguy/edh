@@ -1,42 +1,46 @@
 import { NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { orgName, contactPerson, email, type, message } = body;
+    // Adjust these destructured fields if your frontend form uses different names
+    const { organizationName, contactPerson, email, phone, partnershipType, message } = body;
 
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_APP_PASSWORD,
-      },
-    });
-
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: 'partnerships@entrepreneurshipdevhub.com',
-      subject: `New Partnership Inquiry: ${orgName}`,
+    const { data, error } = await resend.emails.send({
+      from: 'EDH Platform <onboarding@resend.dev>',
+      to: 'ent.devhub@gmail.com', //[cite: 12]
+      subject: `Partnership Proposal from ${organizationName}`,
       html: `
-        <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
-          <h2 style="color: #0f5132;">New Partnership Inquiry</h2>
-          <p>An organization wants to partner with EDH.</p>
-          <hr style="border: 1px solid #eee; margin: 20px 0;" />
-          <p><strong>Organization Name:</strong> ${orgName}</p>
+        <div style="font-family: Arial, sans-serif; max-width: 600px; padding: 20px; border: 1px solid #e5e7eb; border-radius: 8px;">
+          <h2 style="color: #047857;">New Partnership Proposal</h2>
+          <p>An organization has submitted a request to collaborate with EDH.</p>
+          <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 20px 0;" />
+          <p><strong>Organization:</strong> ${organizationName}</p>
           <p><strong>Contact Person:</strong> ${contactPerson}</p>
           <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Partnership Type:</strong> ${type}</p>
-          <p><strong>Message:</strong></p>
-          <p style="background: #f9f9f9; padding: 15px; border-radius: 5px;">${message}</p>
+          <p><strong>Phone:</strong> ${phone}</p>
+          <p><strong>Interest Area:</strong> <span style="color: #d97706; font-weight: bold;">${partnershipType}</span></p>
+          <br/>
+          <p><strong>Proposal / Message:</strong></p>
+          <div style="background-color: #f9fafb; padding: 15px; border-radius: 6px; color: #374151;">
+            ${message}
+          </div>
         </div>
       `,
-    };
+    });
 
-    await transporter.sendMail(mailOptions);
-    return NextResponse.json({ message: "Inquiry sent successfully" }, { status: 200 });
+    if (error) {
+      console.error("Resend Error:", error);
+      return NextResponse.json({ error: 'Failed to send partnership request' }, { status: 500 });
+    }
+
+    return NextResponse.json({ message: 'Partnership request sent successfully', data }, { status: 200 });
+
   } catch (error) {
-    console.error("Email error:", error);
-    return NextResponse.json({ error: "Failed to send email" }, { status: 500 });
+    console.error("Partnerships API Route Error:", error);
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }

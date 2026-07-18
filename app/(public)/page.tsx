@@ -105,7 +105,7 @@ export default function HomePage() {
             <div className="lg:w-1/3">
               <div className="aspect-[3/4] bg-gray-200 rounded-xl overflow-hidden relative shadow-2xl">
                 {/* Upload 'book-cover.jpg' to public folder */}
-                <Image src="/book-cover.png" alt="Nano Business in Nigeria Book Cover" fill className="object-cover" />
+                <Image src="/book-cover-amazon.jpg" alt="Nano Business in Nigeria Book Cover" fill className="object-cover" />
               </div>
             </div>
             <div className="lg:w-2/3">
