@@ -104,7 +104,8 @@ export default function HomePage() {
           <div className="flex flex-col lg:flex-row items-center gap-16">
             <div className="lg:w-1/3">
               <div className="aspect-[3/4] bg-gray-200 rounded-xl overflow-hidden relative shadow-2xl">
-                {/* Upload 'book-cover.jpg' to public folder */}
+                {/* Upload 'book-cover.jpg' to public folder */} 
+                
                 <Image src="/book-cover-amazon.jpg" alt="Nano Business in Nigeria Book Cover" fill className="object-cover" />
               </div>
             </div>
