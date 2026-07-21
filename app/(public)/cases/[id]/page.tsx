@@ -25,27 +25,27 @@ export default async function SingleCaseStudyPage({ params }: { params: { id: st
   }
 
   return (
-    <main className="pt-32 pb-24 bg-gray-50/50 min-h-screen">
+    <main className="pt-24 md:pt-32 pb-16 md:pb-24 bg-gray-50/50 min-h-screen">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <Link href="/cases" className="inline-flex items-center gap-2 text-brand-green font-bold hover:underline mb-8">
-          <ArrowLeft size={20} /> Back to Knowledge Centre
+        <Link href="/cases" className="inline-flex items-center gap-2 text-brand-green font-bold text-sm md:text-base hover:underline mb-6 md:mb-8">
+          <ArrowLeft size={18} className="md:w-5 md:h-5" /> Back to Knowledge Centre
         </Link>
 
-        <article className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-          <div className="p-10 md:p-16">
-            <div className="flex items-center gap-2 text-sm text-gray-500 mb-6 font-medium">
-              <Calendar size={18} className="text-brand-gold" />
+        <article className="bg-white rounded-2xl md:rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+          <div className="p-6 sm:p-10 md:p-16">
+            <div className="flex items-center gap-2 text-xs md:text-sm text-gray-500 mb-4 md:mb-6 font-medium">
+              <Calendar size={16} className="md:w-[18px] md:h-[18px] text-brand-gold" />
               {new Date(article.created_at).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' })}
             </div>
             
-            <h1 className="text-3xl md:text-5xl font-extrabold text-gray-900 mb-10 leading-tight">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 mb-8 md:mb-10 leading-tight tracking-tight">
               {article.title}
             </h1>
 
             {/* This renders the rich HTML content saved from the React Quill editor securely */}
             <div 
-              className="prose prose-lg max-w-none text-gray-700 prose-headings:text-gray-900 prose-a:text-brand-green"
+              className="prose prose-base md:prose-lg max-w-none text-gray-700 prose-headings:text-gray-900 prose-a:text-brand-green"
               dangerouslySetInnerHTML={{ __html: article.content }}
             />
           </div>
