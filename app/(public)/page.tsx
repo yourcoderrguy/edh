@@ -28,9 +28,15 @@ export default function HomePage() {
       {/* SECTION 1: HERO BANNER */}
       <section className="relative h-[90vh] flex items-center justify-center pt-20">
         <div className="absolute inset-0 z-0">
-          {/* Replace with one of her training/entrepreneur images */}
           <div className="absolute inset-0 bg-gray-900/70 z-10"></div>
-          <Image src="/hero-bg.jpg" alt="Entrepreneurs working" fill className="object-cover" priority />
+          <Image 
+            src="/hero.jpg" 
+            alt="Entrepreneurs working" 
+            fill 
+            className="object-cover" 
+            priority 
+            sizes="100vw"
+          />
         </div>
         
         <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
@@ -104,9 +110,13 @@ export default function HomePage() {
           <div className="flex flex-col lg:flex-row items-center gap-16">
             <div className="lg:w-1/3">
               <div className="aspect-[3/4] bg-gray-200 rounded-xl overflow-hidden relative shadow-2xl">
-                {/* Upload 'book-cover.jpg' to public folder */} 
-                {/* the book now in comment */}
-                <Image src="/book-cover-amazon.jpg" alt="Nano Business in Nigeria Book Cover" fill className="object-cover" />
+                <Image 
+                  src="/book-cover-amazon.jpg" 
+                  alt="Nano Business in Nigeria Book Cover" 
+                  fill 
+                  sizes="(max-width: 1024px) 100vw, 33vw"
+                  className="object-cover" 
+                />
               </div>
             </div>
             <div className="lg:w-2/3">
@@ -119,9 +129,9 @@ export default function HomePage() {
               <p className="text-xl text-gray-200 mb-10 leading-relaxed">
                 A practical entrepreneurship manual supporting nano business creation and sustainability.
               </p>
-              <Link href="#" className="inline-flex items-center gap-2 bg-brand-gold hover:bg-yellow-500 text-gray-900 font-bold py-4 px-8 rounded-xl transition-colors text-lg">
+              <Link href="https://amazon.com.au/NANO-BUSINESS-NIGERIA-Entrepreneurship-Entrepreneurs-ebook/dp/B0H3D59W5X/ref" target="_blank" className="inline-flex items-center gap-2 bg-brand-gold hover:bg-yellow-500 text-gray-900 font-bold py-4 px-8 rounded-xl transition-colors text-lg">
                 <BookOpen size={20} /> Available on Amazon
-              </Link>
+              </Link> 
             </div>
           </div>
         </div>
@@ -149,7 +159,6 @@ export default function HomePage() {
       <section className="py-20 bg-brand-green text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            {/* Note: Update these numbers with the actual verified figures from Dr. Abigael */}
             {[
               { label: "Entrepreneurs Trained", value: "500+" },
               { label: "Programmes Delivered", value: "20+" },
@@ -173,11 +182,16 @@ export default function HomePage() {
             <p className="text-gray-600 max-w-2xl mx-auto">Real entrepreneurs. Real enterprises. Real impact.</p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {/* Upload your gallery images to public/assets/images/ and use them here */}
+            {/* Added the $ before {img} and pointed it to the gallery folder */}
             {[1, 2, 3, 4, 5, 6, 7, 8].map((img) => (
               <div key={img} className="aspect-square bg-gray-100 rounded-xl overflow-hidden relative">
-                {/* <Image src={`/gallery-${img}.jpg`} fill className="object-cover hover:scale-105 transition-transform duration-500" alt="EDH Success Story" /> */}
-                <div className="w-full h-full flex items-center justify-center text-gray-300"><Users size={32} /></div>
+                <Image 
+                  src={`/gallery/${img}.jpg`} 
+                  fill 
+                  sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+                  className="object-cover hover:scale-105 transition-transform duration-500" 
+                  alt={`EDH Success Story ${img}`} 
+                />
               </div>
             ))}
           </div>
