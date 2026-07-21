@@ -1,28 +1,57 @@
 "use client";
 
-import { CheckCircle2, TrendingUp, Calendar, Laptop, Quote } from "lucide-react";
+import { useState, useEffect } from "react";
+import { CheckCircle2, Calendar, Laptop, Quote, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 
 export default function ImpactPage() {
-  
-  // REPLACE THESE QUOTES WITH THE ACTUAL TEXT SENT BY THE CLIENT
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  // 📝 PASTE ALL 9+ TESTIMONIALS HERE
   const testimonials = [
     { 
       company: "Rehoboth Creative Hub", 
       quote: "EDH completely transformed how I structure my business. The practical knowledge and mentorship gave me the confidence to scale my operations sustainably.", 
-      image: "/success/rehoboth.jpg" // Upload this image to public/success/
+      image: "/success/rehoboth.jpg" 
     },
     { 
       company: "P.FRESH MULTI-VENTURE", 
       quote: "The digital enterprise bootcamp opened my eyes to online marketing. By applying what I learned, my customer base and revenue have grown significantly.", 
-      image: "/success/pfresh.jpg" // Upload this image to public/success/
+      image: "/success/pfresh.jpg" 
     },
     { 
       company: "Travel With Convenience", 
       quote: "Thanks to the financial capability training at EDH, I was able to properly document my business finances and position my enterprise for long-term growth.", 
-      image: "/success/travel.jpg" // Upload this image to public/success/
+      image: "/success/travel.jpg" 
+    },
+    // Add the rest of your testimonials below using the exact same format:
+    { 
+      company: "Fourth Success Story", 
+      quote: "Paste the fourth testimonial quote here. The slider will automatically adapt and create a new dot for it!", 
+      image: "/success/placeholder4.jpg" 
+    },
+    { 
+      company: "Fifth Success Story", 
+      quote: "Paste the fifth testimonial quote here.", 
+      image: "/success/placeholder5.jpg" 
     }
   ];
+
+  // Auto-play the slider every 5 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [testimonials.length]);
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
+  };
 
   return (
     <main className="pt-24 md:pt-32 pb-16 md:pb-24 bg-gray-50/50">
@@ -81,30 +110,68 @@ export default function ImpactPage() {
         </div>
       </div>
 
-      {/* NEW: Testimonials (Wall of Love) Section */}
-      <div className="bg-brand-green-dark py-16 md:py-24 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 md:mb-16">
+      {/* Testimonials Slider Section */}
+      <div className="bg-brand-green-dark py-16 md:py-24 text-white overflow-hidden relative">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10 md:mb-16">
             <h2 className="text-2xl md:text-4xl font-bold mb-4">Entrepreneurs We've Empowered</h2>
             <p className="text-gray-300 max-w-2xl mx-auto text-sm md:text-base">Real stories from the nano enterprise founders building the future of Africa's economy.</p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-            {testimonials.map((test, idx) => (
-              <div key={idx} className="bg-white/10 p-6 md:p-8 rounded-2xl border border-white/10 backdrop-blur-sm relative mt-8 md:mt-10">
-                {/* Floating Profile Picture */}
-                <div className="absolute -top-8 left-6 w-16 h-16 rounded-full overflow-hidden border-4 border-brand-green-dark bg-gray-200">
-                  <Image src={test.image} alt={test.company} fill className="object-cover" />
-                </div>
-                <Quote className="text-brand-gold w-8 h-8 md:w-10 md:h-10 mb-4 opacity-50 mt-4" />
-                <p className="text-gray-200 text-sm md:text-base italic leading-relaxed mb-6">"{test.quote}"</p>
-                <div>
-                  <h4 className="font-bold text-white">{test.company}</h4>
-                  <p className="text-brand-gold text-xs md:text-sm">EDH Alumnus</p>
-                </div>
+          <div className="relative">
+            {/* The Slider Track */}
+            <div className="overflow-hidden rounded-2xl md:rounded-3xl">
+              <div 
+                className="flex transition-transform duration-500 ease-in-out"
+                style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+              >
+                {testimonials.map((test, idx) => (
+                  <div key={idx} className="w-full flex-shrink-0 px-2 md:px-4">
+                    <div className="bg-white/10 p-8 md:p-12 rounded-2xl border border-white/10 backdrop-blur-sm text-center flex flex-col items-center">
+                      <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden border-4 border-brand-green-dark bg-gray-200 mb-6 relative">
+                        <Image src={test.image} alt={test.company} fill className="object-cover" />
+                      </div>
+                      <Quote className="text-brand-gold w-8 h-8 md:w-10 md:h-10 mb-6 opacity-50" />
+                      <p className="text-gray-200 text-base md:text-xl md:leading-relaxed italic mb-8 max-w-2xl">"{test.quote}"</p>
+                      <div>
+                        <h4 className="font-bold text-white text-lg">{test.company}</h4>
+                        <p className="text-brand-gold text-sm">EDH Alumnus</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
+            </div>
+
+            {/* Navigation Arrows (Hidden on very small screens, visible on md and up) */}
+            <button 
+              onClick={prevSlide}
+              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 md:-translate-x-6 bg-white/10 hover:bg-white/20 p-2 rounded-full backdrop-blur-sm transition-colors text-white hidden sm:block"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+            <button 
+              onClick={nextSlide}
+              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 md:translate-x-6 bg-white/10 hover:bg-white/20 p-2 rounded-full backdrop-blur-sm transition-colors text-white hidden sm:block"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+          </div>
+
+          {/* Dot Indicators */}
+          <div className="flex justify-center gap-2 mt-8 md:mt-10">
+            {testimonials.map((_, idx) => (
+              <button 
+                key={idx}
+                onClick={() => setCurrentSlide(idx)}
+                className={`transition-all duration-300 rounded-full ${
+                  currentSlide === idx ? "w-8 bg-brand-gold h-2" : "w-2 bg-white/30 h-2 hover:bg-white/50"
+                }`}
+                aria-label={`Go to slide ${idx + 1}`}
+              />
             ))}
           </div>
+
         </div>
       </div>
 
