@@ -74,7 +74,7 @@ export default function ImpactPage() {
           {/* This is where you will map over the 50+ images of students/events */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
   {/* This automatically creates a grid for your 30 images */}
-  {Array.from({ length: 15 }, (_, i) => i + 1).map((imgNumber) => (
+  {Array.from({ length: 20 }, (_, i) => i + 1).map((imgNumber) => (
     <div key={imgNumber} className="aspect-square bg-gray-100 rounded-xl overflow-hidden relative group">
       
       <Image 
