@@ -31,7 +31,7 @@ export default function ContactPage() {
           firstName,
           lastName,
           email: formData.email,
-          phone: "Not Provided", // Not on this specific form
+          phone: formData.phone,
           organization: "General Inquiry",
           message: `Subject: ${formData.subject}\n\n${formData.message}`
         }),
@@ -154,7 +154,7 @@ export default function ContactPage() {
                       <input type="tel" required value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} className="w-full bg-gray-50 border border-gray-200 rounded-xl p-3 md:p-4 text-sm md:text-base focus:ring-2 focus:ring-brand-green focus:border-transparent outline-none transition-all" placeholder="+2348033972801" />
                     </div>
                 </div>
-                
+
                 {/* message section */}
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">Message</label>
