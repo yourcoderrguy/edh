@@ -9,6 +9,7 @@ export default function ContactPage() {
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
+    phone: "",
     subject: "",
     message: ""
   });
@@ -143,11 +144,18 @@ export default function ContactPage() {
                     </div>
                   </div>
                   
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">Subject</label>
                     <input type="text" required value={formData.subject} onChange={(e) => setFormData({...formData, subject: e.target.value})} className="w-full bg-gray-50 border border-gray-200 rounded-xl p-3 md:p-4 text-sm md:text-base focus:ring-2 focus:ring-brand-green focus:border-transparent outline-none transition-all" placeholder="How can we help you?" />
                   </div>
-
+                  <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">Phone Number</label>
+                      <input type="tel" required value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} className="w-full bg-gray-50 border border-gray-200 rounded-xl p-3 md:p-4 text-sm md:text-base focus:ring-2 focus:ring-brand-green focus:border-transparent outline-none transition-all" placeholder="+2348033972801" />
+                    </div>
+                </div>
+                
+                {/* message section */}
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">Message</label>
                     <textarea rows={5} required value={formData.message} onChange={(e) => setFormData({...formData, message: e.target.value})} className="w-full bg-gray-50 border border-gray-200 rounded-xl p-3 md:p-4 text-sm md:text-base focus:ring-2 focus:ring-brand-green focus:border-transparent outline-none transition-all" placeholder="Write your message here..."></textarea>
