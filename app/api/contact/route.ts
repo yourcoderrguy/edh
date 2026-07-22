@@ -10,7 +10,7 @@ export async function POST(request: Request) {
 
     const { data, error } = await resend.emails.send({
       from: 'EDH Platform <onboarding@resend.dev>',
-      to: 'ent.devhub@gmail.com', //[cite: 12]
+      to: 'ent.devhub@gmail.com', 
       subject: `New Contact Inquiry from ${firstName} ${lastName}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; padding: 20px; border: 1px solid #e5e7eb; border-radius: 8px;">
@@ -19,8 +19,8 @@ export async function POST(request: Request) {
           <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 20px 0;" />
           <p><strong>Name:</strong> ${firstName} ${lastName}</p>
           <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Phone:</strong> ${phone}</p>
-          <p><strong>Organization:</strong> ${organization || 'Not provided'}</p>
+          <p><strong>Phone:</strong> ${phone || 'Not provided'}</p>
+          <p><strong>Organization:</strong> ${organization || 'General Inquiry'}</p>
           <br/>
           <p><strong>Message:</strong></p>
           <div style="background-color: #f9fafb; padding: 15px; border-radius: 6px; color: #374151;">
